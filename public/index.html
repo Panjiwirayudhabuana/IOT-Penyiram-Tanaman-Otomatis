@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Plant Watering</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌱 IoT Plant Watering</h1>
+            <div class="connection-status">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="statusText">Menghubungkan...</span>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('dashboard')">Dashboard</button>
+            <button class="tab" onclick="switchTab('history')">History</button>
+        </div>
+
+        <div id="dashboardTab" class="tab-content active">
+            <!-- Temperature Row -->
+            <div class="grid-row">
+                <div class="card">
+                    <h3>📈 Grafik Temperatur</h3>
+                    <div class="chart-container">
+                        <canvas id="tempChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="current-value">
+                        <div class="value-display" id="currentTemp">--</div>
+                        <div class="value-unit">°C</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Air Humidity Row -->
+            <div class="grid-row">
+                <div class="card">
+                    <h3>📈 Grafik Kelembapan Udara</h3>
+                    <div class="chart-container">
+                        <canvas id="airHumChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="current-value">
+                        <div class="value-display" id="currentAirHum">--</div>
+                        <div class="value-unit">%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Soil Humidity Row -->
+            <div class="grid-row">
+                <div class="card">
+                    <h3>📈 Grafik Kelembapan Tanah</h3>
+                    <div class="chart-container">
+                        <canvas id="soilHumChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="current-value">
+                        <div class="value-display" id="currentSoilHum">--</div>
+                        <div class="value-unit">%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls Row: All 4 buttons in equal size -->
+            <div class="controls-grid">
+                <div class="card control-card">
+                    <div class="control-info">
+                        <div class="control-label">💧 Pompa Air</div>
+                        <div class="control-status" id="pumpStatus">Status: OFF</div>
+                    </div>
+                    <div class="toggle-switch" id="pumpToggle" onclick="togglePump()">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+                <div class="card control-card">
+                    <div class="control-info">
+                        <div class="control-label">🚰 Valve</div>
+                        <div class="control-status" id="valveStatus">Status: OFF</div>
+                    </div>
+                    <div class="toggle-switch" id="valveToggle" onclick="toggleValve()">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+                <div class="card control-card">
+                    <div class="control-info">
+                        <div class="control-label">🔌 Relay 1</div>
+                        <div class="control-status" id="relay1Status">Status: OFF</div>
+                    </div>
+                    <div class="toggle-switch" id="relay1Toggle" onclick="toggleRelay1()">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+                <div class="card control-card">
+                    <div class="control-info">
+                        <div class="control-label">🔌 Relay 2</div>
+                        <div class="control-status" id="relay2Status">Status: OFF</div>
+                    </div>
+                    <div class="toggle-switch" id="relay2Toggle" onclick="toggleRelay2()">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="historyTab" class="tab-content">
+            <div class="history-buttons">
+                <button class="history-btn" onclick="loadHistory('temperature')">
+                    🌡️ History Temperatur
+                </button>
+                <button class="history-btn" onclick="loadHistory('humidity')">
+                    💧 History Kelembapan
+                </button>
+            </div>
+            <div id="historyContent" class="history-list">
+                <div class="empty-state">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <p>Pilih tombol di atas untuk melihat history</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Socket.IO -->
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    
+    <!-- Load App Script -->
+    <script src="app.js"></script>
+</body>
+</html>
